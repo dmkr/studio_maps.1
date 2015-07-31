@@ -1,15 +1,37 @@
+<script>
+    function Geo() {
+        var geocoder = new google.maps.Geocoder();
+        var street = document.getElementById('studio_point_street').value
+        var city = document.getElementById('studio_point_city').value;
+        var state = document.getElementById('studio_point_state').value;
+        var zip = document.getElementById('studio_point_zip').value$;
+//      $( "input" )
+//              .keyup(function() {
+//                  street = $( this ).val();
+//                  $( "p\#studio_point_studio_street" ).text( value );
+//              })
+//              .keyup();
+        var address = street + "," + city + "," + state + " " + zip;
+        geocoder.geocode({'address': address}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                document.getElementById('studio_point_lat').value=(results[0].geometry.location.lat());
+                document.getElementById('studio_point_lon').value=(results[0].geometry.location.lng());
+                document.getElementById("new_studio_point").submit();
+            }
+            else {
+                alert("Error finding address");
+
+            }
+        });
+    }
+</script>
+
 <%= form_for @studio_point, :html => { :class => 'form-horizontal form-model' } do |f| %>
   <div class="form-group">
-    <%= f.label :lat, :class => 'control-label col-md-2' %>
-    <div class="col-md-10">
-      <%= f.text_field :lat, :class => 'text-field form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :lon, :class => 'control-label col-md-2' %>
-    <div class="col-md-10">
-      <%= f.text_field :lon, :class => 'text-field form-control' %>
-    </div>
+
+      <%= f.hidden_field :lat, :class => 'text-field form-control' %>
+      <%= f.hidden_field :lon, :class => 'text-field form-control' %>
+
   </div>
   <div class="form-group">
     <%= f.label :studio_id, :class => 'control-label col-md-2' %>
@@ -44,7 +66,9 @@
 
   <div class="form-group">
     <div class='col-md-offset-2 col-md-10'>
-      <%= f.submit nil, :class => 'btn btn-primary' %>
+
+        <%= tag "input", { "type" => "button", "value" => "Submit", "onclick" => "Geo()" ,"class" =>'btn btn-primary'}%>
+
       <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                   studio_points_path, :class => 'btn btn-default' %>
     </div>

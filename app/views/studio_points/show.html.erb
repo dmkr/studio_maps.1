@@ -1,36 +1,151 @@
-<%- model_class = StudioPoint -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => StudioPoint %></h1>
-</div>
+<script>
+    var token;
+    var api_key;
+    $.ajax({
+        type: "POST",
+        url: "https://authserverqa.bluebeam.com/auth/token",
+        data: "grant_type=password&username=bbsanitytest@gmail.com&password=bb123456",
+        success: function(data, textStatus, jqXHR)
+        {
+            token = data.access_token;
+            console.log(token);
 
-<div class="fieldset">
-  <dl>
-      <dt class="label label-default"><%= model_class.human_attribute_name(:lat) %></dt>
-      <dd><pre class="prettyprint"><%= @studio_point.lat %></pre></dd>
-      <dt class="label label-default"><%= model_class.human_attribute_name(:lon) %></dt>
-      <dd><pre class="prettyprint"><%= @studio_point.lon %></pre></dd>
-      <dt class="label label-default"><%= model_class.human_attribute_name(:studio_id) %></dt>
-      <dd><pre class="prettyprint"><%= @studio_point.studio_id %></pre></dd>
-      <dt class="label label-default"><%= model_class.human_attribute_name(:street) %></dt>
-      <dd><pre class="prettyprint"><%= @studio_point.street %></pre></dd>
-      <dt class="label label-default"><%= model_class.human_attribute_name(:city) %></dt>
-      <dd><pre class="prettyprint"><%= @studio_point.city %></pre></dd>
-      <dt class="label label-default"><%= model_class.human_attribute_name(:zip) %></dt>
-      <dd><pre class="prettyprint"><%= @studio_point.zip %></pre></dd>
-      <dt class="label label-default"><%= model_class.human_attribute_name(:state) %></dt>
-      <dd><pre class="prettyprint"><%= @studio_point.state %></pre></dd>
-  </dl>
-</div>
+            api_key = "?api_key=" + token;
+            getDocs();
 
-<div class="form-group">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              studio_points_path, :class => 'btn btn-default'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_studio_point_path(@studio_point), :class => 'btn btn-default' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              studio_point_path(@studio_point),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+//           console.log(data);
+            //data - response from server
+        },
+
+    });
+    //console.log(JSON.stringify(token));
+</script>
+<style>
+    .btn {
+        background: #3498db;
+        background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+        background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+        background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+        background-image: -o-linear-gradient(top, #3498db, #2980b9);
+        background-image: linear-gradient(to bottom, #3498db, #2980b9);
+        -webkit-border-radius: 28;
+        -moz-border-radius: 28;
+        border-radius: 28px;
+        font-family: Arial;
+        color: #ffffff;
+        font-size: 20px;
+        padding: 10px 20px 10px 20px;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        background: #3cb0fd;
+        background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+        text-decoration: none;
+    }
+    .btnGrey {
+        background: #323336;
+        background-image: -webkit-linear-gradient(top, #323336, #547285);
+        background-image: -moz-linear-gradient(top, #323336, #547285);
+        background-image: -ms-linear-gradient(top, #323336, #547285);
+        background-image: -o-linear-gradient(top, #323336, #547285);
+        background-image: linear-gradient(to bottom, #323336, #547285);
+        -webkit-border-radius: 28;
+        -moz-border-radius: 28;
+        border-radius: 28px;
+        font-family: Arial;
+        color: #ffffff;
+        font-size: 20px;
+        padding: 10px 20px 10px 20px;
+        text-decoration: none;
+    }
+
+    .btnGrey:hover {
+        background: #000000;
+        background-image: -webkit-linear-gradient(top, #000000, #3498db);
+        background-image: -moz-linear-gradient(top, #000000, #3498db);
+        background-image: -ms-linear-gradient(top, #000000, #3498db);
+        background-image: -o-linear-gradient(top, #000000, #3498db);
+        background-image: linear-gradient(to bottom, #000000, #3498db);
+        text-decoration: none;
+
+    }
+    a
+    {
+        color: #ffffff;
+        text-decoration: none;
+    }
+</style>
+
+<script>
+
+</script>
+<script>
+    var query = "https://studioapi-sandbox.bluebeam.com:443/PublicAPI/v1/sessions/<%=@studio_point.studio_id%>/files";
+    function getDocs(){
+
+
+        console.log("Seconds please");
+
+        $.ajax({
+            url: (query + api_key),
+            method: "GET",
+            crossDomain: true,
+
+            success: function (data) {
+                // console.log(JSON.stringify(data));
+                data.Files.forEach(function(entry) {
+                    $.ajax({
+                        url: (query + "/" + entry.Id.toString() + api_key),
+                        method: "GET",
+                        crossDomain: true,
+
+                        success: function (res) {
+                            console.log((res.DownloadUrl));
+
+                            $("#maintable").append('<tr valign="top">  <td class = "btn"><a href="'+ res.DownloadUrl+'"  download="' +res.Name + '">' + res.Name + '</a></td> ' +
+                                    '<td><button class = "btnGrey" onclick="DeleteDoc('+entry.Id.toString()+')">Delete</button></td></tr>');
+                        }
+                    });
+
+
+
+                });
+
+
+            },
+
+
+        });
+    }
+
+    function DeleteDoc(fileId)
+    {
+        $.ajax({
+            url: (query + "/" + fileId.toString() + api_key),
+            method: "DELETE",
+            crossDomain: true,
+
+            success: function (res) {
+
+
+                alert ("File Deleted");
+            }
+        });
+
+    }
+</script>
+
+
+<div id = "maindiv">
+  <table id = "maintable">
+
+  </table>
+
+
 </div>
 
