@@ -1,22 +1,26 @@
-<h1>Listing studio_points</h1>
-
-<table>
+<%- model_class = StudioPoint -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => StudioPoint %></h1>
+</div>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>Lat</th>
-      <th>Lon</th>
-      <th>Studio</th>
-      <th>Street</th>
-      <th>City</th>
-      <th>Zip</th>
-      <th>State</th>
-      <th colspan="3"></th>
+      <th>ID</th>
+      <th><%= model_class.human_attribute_name(:lat) %></th>
+      <th><%= model_class.human_attribute_name(:lon) %></th>
+      <th><%= model_class.human_attribute_name(:studio_id) %></th>
+      <th><%= model_class.human_attribute_name(:street) %></th>
+      <th><%= model_class.human_attribute_name(:city) %></th>
+      <th><%= model_class.human_attribute_name(:zip) %></th>
+      <th><%= model_class.human_attribute_name(:state) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @studio_points.each do |studio_point| %>
       <tr>
+        <td><%= studio_point.id %></td>
         <td><%= studio_point.lat %></td>
         <td><%= studio_point.lon %></td>
         <td><%= studio_point.studio_id %></td>
@@ -24,14 +28,21 @@
         <td><%= studio_point.city %></td>
         <td><%= studio_point.zip %></td>
         <td><%= studio_point.state %></td>
-        <td><%= link_to 'Show', studio_point %></td>
-        <td><%= link_to 'Edit', edit_studio_point_path(studio_point) %></td>
-        <td><%= link_to 'Destroy', studio_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%=l studio_point.created_at, format: :long %></td>
+        <td>
+          <%= link_to studio_point_path(studio_point), :class => 'btn btn-xs', :title => "#{ t('.show', :default => t('helpers.links.show')) }" do %>
+            <%= glyph 'info-sign' %>
+            <%= glyph 'pencil' %>
+          <%- end -%>
+          <%= link_to studio_point_path(studio_point), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs', :title => "#{ t('.destroy', :default => t('helpers.links.destroy')) }" do %>
+            <%= glyph 'remove' %>
+          <%- end -%>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Studio point', new_studio_point_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_studio_point_path,
+            :class => 'btn btn-primary' %>

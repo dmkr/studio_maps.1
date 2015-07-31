@@ -1,6 +1,5 @@
-<h1>Editing studio_point</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @studio_point %> |
-<%= link_to 'Back', studio_points_path %>
+<%- model_class = StudioPoint -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => StudioPoint %></h1>
+</div>
+<%= render :partial => 'form' %>

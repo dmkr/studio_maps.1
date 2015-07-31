@@ -1,17 +1,52 @@
-<%= simple_form_for(@studio_point) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :lat %>
-    <%= f.input :lon %>
-    <%= f.input :studio_id %>
-    <%= f.input :street %>
-    <%= f.input :city %>
-    <%= f.input :zip %>
-    <%= f.input :state %>
+<%= form_for @studio_point, :html => { :class => 'form-horizontal form-model' } do |f| %>
+  <div class="form-group">
+    <%= f.label :lat, :class => 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :lat, :class => 'text-field form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :lon, :class => 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :lon, :class => 'text-field form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :studio_id, :class => 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :studio_id, :class => 'text-field form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :street, :class => 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :street, :class => 'text-field form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :city, :class => 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :city, :class => 'text-field form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :zip, :class => 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :zip, :class => 'text-field form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :state, :class => 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :state, :class => 'text-field form-control' %>
+    </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="form-group">
+    <div class='col-md-offset-2 col-md-10'>
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  studio_points_path, :class => 'btn btn-default' %>
+    </div>
   </div>
 <% end %>
