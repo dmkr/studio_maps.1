@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Lat:</strong>
+  <%= @studio_point.lat %>
+</p>
+
+<p>
+  <strong>Lon:</strong>
+  <%= @studio_point.lon %>
+</p>
+
+<p>
+  <strong>Studio:</strong>
+  <%= @studio_point.studio_id %>
+</p>
+
+<p>
+  <strong>Street:</strong>
+  <%= @studio_point.street %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @studio_point.city %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @studio_point.zip %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @studio_point.state %>
+</p>
+
+<%= link_to 'Edit', edit_studio_point_path(@studio_point) %> |
+<%= link_to 'Back', studio_points_path %>

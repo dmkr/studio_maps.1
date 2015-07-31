@@ -1,0 +1,37 @@
+<h1>Listing studio_points</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Lat</th>
+      <th>Lon</th>
+      <th>Studio</th>
+      <th>Street</th>
+      <th>City</th>
+      <th>Zip</th>
+      <th>State</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @studio_points.each do |studio_point| %>
+      <tr>
+        <td><%= studio_point.lat %></td>
+        <td><%= studio_point.lon %></td>
+        <td><%= studio_point.studio_id %></td>
+        <td><%= studio_point.street %></td>
+        <td><%= studio_point.city %></td>
+        <td><%= studio_point.zip %></td>
+        <td><%= studio_point.state %></td>
+        <td><%= link_to 'Show', studio_point %></td>
+        <td><%= link_to 'Edit', edit_studio_point_path(studio_point) %></td>
+        <td><%= link_to 'Destroy', studio_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Studio point', new_studio_point_path %>
